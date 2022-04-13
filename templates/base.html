@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:image" content="http://senat.uz/frontend/web/images/gerb.png">
+
+		{% block title %} <title>muckup.uz</title> {% endblock title %}
+
+		{% block css %}
+
+		{% endblock css %}
+
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+		
+			gtag('config', 'UA-188496439-1');
+			</script>
+		
+			
+			<script type="text/javascript">
+			  var user = '{{request.user}}'
+		
+			  function getToken(name) {
+				var cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+				  var cookies = document.cookie.split(';');
+				  for (var i = 0; i < cookies.length; i++) {
+					var cookie = cookies[i].trim();
+					// Does this cookie string begin with the name we want?
+					if (cookie.substring(0, name.length + 1) === (name + '=')) {
+					  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+					  break;
+					}
+				  }
+				}
+				return cookieValue;
+			  }
+			  var csrftoken = getToken('csrftoken')
+		
+			  function getCookie(name) {
+				// Split cookie string and get all individual name=value pairs in an array
+				var cookieArr = document.cookie.split(";");
+		
+				// Loop through the array elements
+				for(var i = 0; i < cookieArr.length; i++) {
+				  var cookiePair = cookieArr[i].split("=");
+		
+				  /* Removing whitespace at the beginning of the cookie name
+				  and compare it with the given string */
+				  if(name == cookiePair[0].trim()) {
+					// Decode the cookie value and return
+					return decodeURIComponent(cookiePair[1]);
+				  }
+				}
+		
+				// Return null if not found
+				return null;
+			  }
+			
+			</script>
+
+	</head>
+	<body>
+
+		{% include 'includes/header.html' %} 
+
+		{% block body %}
+	
+		{% endblock body %}
+
+		{% include 'includes/footer.html' %}
+
+
+	<!-- <div class="fakeLoader"></div> -->
+	<button class="btn btn-outline-danger btn-top" title="ScrollTop"><i class="fa fa-angle-up"></i></button>
+
+		{% block js %}
+		
+		{% endblock js %}
+		<script src="{% static 'js/js-methods.js' %}"></script>
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

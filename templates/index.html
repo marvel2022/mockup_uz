@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+	{% block css %}
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/fakeLoader.min.css' %}">
+		
+		<link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+		<style>
+			.swiper-container{
+				width:100%;
+				overflow:hidden;
+				height:80vh;
+			} 
+		
+			.swiper-slide{
+		
+				overflow:hidden;
+				width: 1920px;
+			}
+			@media (max-width:576px) {
+    		  .swiper-container {
+     			   height: 250px;
+     			 }
+   				}
+
+  			@media (min-width: 576px) and (max-width: 768px) {
+      			.swiper-container {
+        			height: 350px;
+     				}
+    			}
+    		@media (min-width: 768px) and (max-width: 992px) {
+      			.swiper-container {
+        			height: 400px;
+     				}
+    			}
+			@media (min-width: 992px) and (max-width: 1200px) {
+      			.swiper-container {
+        			height: 550px;
+     			}
+    		}
+			@media (min-width: 1200px) {
+      			.swiper-container {
+        			height: 600px;
+     			}
+    		}
+			/* Dropdown Button */
+
+			.dropdown {
+				position: relative;
+				display: inline-block;
+			}
+			.dropdown-content {
+				display: none;
+				position: absolute;
+				background-color: #ffffff;
+				min-width: 160px;
+				box-shadow: 0px 8px 20px 1px rgba(0,0,0,0.2);
+				z-index: 1;
+			}
+			.dropdown-content a {
+				color: black;
+				padding: 12px 16px;
+				text-decoration: none;
+				display: block;
+			}
+			.dropdown-content a:hover {background-color: #ddd;}
+			.dropdown:hover .dropdown-content {display: block;}
+			.dropbtn{
+				color: #000;
+			}
+			.dropdown:hover .dropbtn {
+				background-color: #3e8e41;
+				color: #ffffff;
+			}
+		</style>
+
+	{% endblock css %}
+
+	{% block body %}
+
+		<section class="container-fluid pl-0 pr-0" style="margin-top: 70px;">
+			<div class="swiper-container" >
+				<div class="swiper-wrapper" >  
+					<div class="swiper-slide" style="background-image: url(/static/img/header1.jpg); background-repeat: no-repeat; background-size: cover;">
+						<div class="carousel-caption text-left "> 
+						</div>
+					</div>
+					<div class="swiper-slide" style="background-image: url(/static/img/sds.jpg); background-repeat: no-repeat; background-size: cover;">
+						<div class="carousel-caption text-left"> 
+						</div>
+					</div>
+					<div class="swiper-slide pt-5" style="background-image: url(/static/img/dfd5.jpg); background-repeat: no-repeat; background-size: cover;">
+						<div class="carousel-caption text-left"> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+
+		<section class="container-fluid pt-5">
+			<div class="container pl-0 pr-0">
+				<div class="row border pt-2 pb-2">
+					<div class="col-12 col-md-4 col-lg-3 col-xl-2 pt-4 pb-1 pl-2 mb-4 text-center">
+						<div class="dropdown">
+							<a href="#!" class="text-decoration-none h4 dropbtn border p-2">Kategoriya<i class="fa fa-angle-down"></i></a>
+							<div class="dropdown-content" style="z-index: 9999; margin-top: 7px;">
+
+								{% for category in category_list %}
+									<a href="{% url 'core:home' category.slug %}" class="text-decoration-none text-dark border-bottom pt-2 pb-2">{{ category.name }}</a>
+								{% endfor %}
+
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-8 col-lg-9 col-xl-10 pt-3 pb-2 pl-2 text-center">
+						<div class="row">
+							
+							{% for category in category_list %}
+								{% if category.active %}
+									<div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-1 pl-0 pr-0 text-center"><a class="text-dark h6 m-auto text-decoration-none" href="{% url 'core:home' category.slug %}">
+										<img src="{{ category.imageURL }}" width="30" height="30"  alt=""><h6>{{ category.name }}</h6></a>
+									</div>
+								{% endif %}
+							{% endfor %}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<section class="container pl-0 pr-0 searchSection pt-5 pb-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+						<h2 class="font-weight-bold">Top mackup</h2>
+					</div>
+					<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+
+						{% include 'includes/messages.html' %}
+
+						<!-- Search Bar -->
+						<form method="GET" class="search" style="border: 1px solid #ddd; border-radius: 50px; padding-left: 20px; padding-right: 3px;">
+							<input name='q' type="text" class="p-0 m-0" placeholder="Izlash ...." required>
+							<div class="button-src">
+								<button type="submit" class="btn">Izlash</button>
+							</div>
+						</form>
+						<!-- Search Bar -->
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<section class="container p-3 p-lg-0 p-xl-0 text-center">
+			<div class="row" id="ads">
+				{% for obj in object_list %}
+					<div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 p-3">
+						<div class="card rounded profile-card">
+							<div class="card-image">
+								<span class="card-notify-badge ml-3">{{ obj.category }}</span>
+								<!-- Price -->
+								{% if obj.free %}
+									<span class="card-notify-year">Free</span>
+								{% elif obj.discount %}
+									<small><del>{{ obj.price }}</del></small>
+									<span class="card-notify-year">{{ obj.discount }}</span>
+								{% elif obj.price %}
+									<span class="card-notify-year">{{ obj.price }}</span>
+								{% else %}
+									<span class="card-notify-year">Free</span>
+								{% endif %}
+								<!-- End Price -->
+
+								{% for image in obj.product_image.all %}
+									{% if forloop.counter == 1 %}
+										<img class="img-flu" src="{{ image.imageURL }}" width="100%" height="300" alt="Alternate Text" />
+									{% endif %}
+								{% endfor %}
+
+							</div>
+							<div class="card-body text-center">
+								<div class="ad-title m-auto">
+									<h6>{{ obj.name|truncatechars:20 }}</h6>
+								</div>
+							</div>
+							<div class="profile-content">
+								<ul class="social-link">
+									<a href="{{ obj.fileURL }}" onclick="core_method_js(this)" data-slug="{{ obj.slug }}" class="text-white"><i class="fa fa-download fa-2x mr-2"></i></a>
+									<a href="{% url 'core:detail' obj.slug %}" class="text-white heartBtn"><i class="fa fa-eye fa-2x mr-2 "></i></a>
+									
+									{% if request.user in obj.liked.all %}
+										<a  onclick="like_unlike(this)" data-slug="{{ obj.slug }}" class="text-white heartIcon"><i style='color: red;' class="fa fa-heart fa-2x"></i></a>
+									{% else %}
+										<a onclick="like_unlike(this)" data-slug="{{ obj.slug }}" class="text-white heartIcon"><i class="fa fa-heart fa-2x"></i></a>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				{% empty %}
+					<div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 pb-4">
+						<div class="profile-card card shadow-lg border-0">
+							<h5 class="card-title pl-3 pr-3 pb-2">There is no available mockup ;)</h5>
+						</div>
+					</div>
+				{% endfor %}
+
+				
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-3">
+					<a href="{% url 'core:mockup' %}" class="btn border pl-5 pr-5 font-weight-bold" style="letter-spacing: 2.5px; background-color: #efefef; box-shadow: #efefef 0px 0px 10px 5px;">Yanada ko'proq</a>
+				</div>
+			</div>
+		</section> 
+
+		<section class="container-fluid">
+			<div class="container">
+				<div class="row">
+
+				</div>
+			</div>
+		</section>
+
+
+		<section class="container-fluid sectionBlogImg mt-5">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-4 pb-4">
+						<div class="pt-5 pb-5">
+						<h3 class="bestFont font-weight-bold sectionText1">Barchasini birdaniga oling!</h3>
+						<h5 class="bestFont font-weight-bold  sectionText2 mt-3">Siz bu servis orqali tizimda joylashgan barcha mackup fayllarini bir vaqtning o'zida olishingiz mumkin.</h5>
+						<a href="" class="btn bestFont mt-4" style="border: 2px solid rgb(68, 68, 68);; color:rgb(68, 68, 68);">Buyurtma bermoq</a>
+					</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<section class="container-fluid bg-light pl-3 pr-3 pt-5 pb-5 border-bottom">
+			<div class="container p-3">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<h3 class="font-weight-bold">Eng ko'p ko'rilganlar</h3>
+					</div>
+				</div>
+				<div class="row pt-4" id="ads">
+					
+					{% for obj in recommended_list %}
+						<div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 p-3">
+							<div class="card rounded profile-card">
+								<div class="card-image">
+									<span class="card-notify-badge ml-3">{{ obj.category }}</span>
+									<!-- Price -->
+									{% if obj.free %}
+										<span class="card-notify-year">Free</span>
+									{% elif obj.discount %}
+										<small><del>{{ obj.price }}</del></small>
+										<span class="card-notify-year">{{ obj.discount }}</span>
+									{% elif obj.price %}
+										<span class="card-notify-year">{{ obj.price }}</span>
+									{% else %}
+										<span class="card-notify-year">Free</span>
+									{% endif %}
+									<!-- End Price -->
+
+									{% for image in obj.product_image.all %}       
+										{% if forloop.counter == 1 %}	
+											<img class="img-flu" src="{{ image.imageURL }}" width="100%" height="210" alt="Alternate Text" />
+										{% endif %}
+									{% endfor %}
+
+								</div>
+								<div class="card-body text-center">
+									<div class="ad-title m-auto">
+										<h6>{{ obj.name|truncatechars:20 }}</h6>
+									</div>
+								</div>
+								<div class="profile-content">
+									<ul class="social-link">
+										<a href="{{ obj.fileURL }}" onclick="core_method_js(this)" data-slug="{{ obj.slug }}" class="text-white"><i class="fa fa-download fa-2x mr-2"></i></a>
+										<a href="{% url 'core:detail' obj.slug %}" class="text-white heartBtn"><i class="fa fa-eye fa-2x mr-2 "></i></a>
+										{% if request.user in obj.liked.all %}
+											<a  onclick="like_unlike(this)" data-slug="{{ obj.slug }}" class="text-white heartIcon"><i style='color: red;' class="fa fa-heart fa-2x"></i></a>
+										{% else %}
+											<a onclick="like_unlike(this)" data-slug="{{ obj.slug }}" class="text-white heartIcon"><i class="fa fa-heart fa-2x"></i></a>
+										{% endif %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+
+				</div>
+			</div>
+		</section>
+ 
+	{% endblock body %}
+
+	{% block js %}
+		<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.js' %}"></script>
+		<script src="{% static 'js/fakeLoader.min.js' %}"></script>
+		<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+		<script>
+			var mySwiper = new Swiper('.swiper-container',{
+			speed: 1000,
+			spaceBetween: 0,
+			grabCursor:true,
+			autoplay:{
+				autoplay:true,
+				delay:4000,                             
+				disableOnInteraction:false         
+			}                       
+		});
+
+		$(document).ready(function(){
+            $('.nav').click(function(e){
+                  e.preventDefault();
+                  $("#content").load($(this).attr('href'));
+            });
+      });
+		</script>
+	{% endblock js %}

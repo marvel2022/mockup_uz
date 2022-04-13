@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load i18n %}
+{% load account socialaccount %}
+
+	{% block title %} {% trans "Авторизоваться" %} {% endblock title %}
+
+	{% block css %} 
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/fakeLoader.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+		<style type="text/css"></style>
+	{% endblock css %}
+
+	{% block body %}
+		
+		<section>
+			<div class="container-fluid pt-5" style="min-height: 72vh;">
+				<div class="container">
+					{% if messages %}
+						<div id="messages">
+							{% for message in messages %}
+								<div class="alert alert-dismissible alert-info" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									{{ message|escape }}
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+					{% if form.non_field_errors %}
+						<div id="messages">
+							{% for message in form.non_field_errors %}
+								<div class="alert alert-dismissible alert-danger" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									{{ message|escape }}
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+					<div class="card pt-5 border-0">
+						<div class="card-body border text-center" style="margin: auto;">
+							<h3 class="text-dark pb-5">{% trans 'Авторизоваться' %}</h3>
+							<!-- Login Form -->
+							<form  class="pt--20 pb--30 login" method="POST" action="{% url 'account_login' %}">
+								{% csrf_token %}
+
+								<div class="form-group{% if form.phone_email.errors %} has-error{% endif %}">
+									<label class="control-label" for="id_phone_email">{% trans 'Телефонный номер / Адрес электронной почты' %}</label>
+									<input id="id_phone_email" maxlength="150" name="phone_email" placeholder="+998 (--) --- -- -- or email" class="form-control mb-1" type="text" required />
+									<div class="error-block">{{ form.phone_email.errors }}</div>
+								</div>
+
+								<div class="form-group{% if form.password.errors %} has-error{% endif %}">
+									<label class="control-label" for="id_password">{% trans 'Пароль' %}</label>
+									<input id="id_password" maxlength="150" name="password" placeholder="" class="form-control mb-1" type="password" required />
+									<div class="error-block">{{ form.password.errors }}</div>
+								</div>
+								
+								{% if redirect_field_value %}
+									<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+								{% endif %}
+								<button class="btn btn-block login_btn" type="submit">{% trans 'Войти' %}</button>								
+							</form>
+							<!-- End Login Form -->
+							<p><a href="{% url 'account_reset_password' %}" class="h6 text-dark"> {% trans 'Забыл пароль?' %}</a></p>
+							<br>
+							<small>
+								{% trans 'Если вы еще не создали учетную запись, сначала' %} 
+								<a  href="{{ signup_url }}" class="text-secondary" >{% trans 'зарегистрируйтесь.'%}</a>
+							</small>     
+						</div>
+
+						<!-- 3rd party account -->
+						{% get_providers as socialaccount_providers %}
+						{% if socialaccount_providers %}
+							<small>
+								{% blocktrans with site.name as site_name %}
+									Please sign in for {{ site_name }} with one of your existing third party accounts.
+								{% endblocktrans %}
+							</small>
+							<div class="socialaccount_ballot">
+								<ul class="socialaccount_providers">
+									{% include "socialaccount/snippets/provider_list.html" with process="login" %}
+								</ul>
+							</div>
+							{% include "socialaccount/snippets/login_extra.html" %}
+						{% endif %}
+						<!-- end -->
+
+					</div>
+				</div>
+			</div>
+		</section>
+	{% endblock body %}
+
+	{% block js %} 
+		<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/fakeLoader.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+	{% endblock js %}

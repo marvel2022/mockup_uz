@@ -1,0 +1,42 @@
+<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-3 text-center">
+    <nav aria-label="Page navigation example" class="navbar">
+        <ul class="pagination pagination-md m-auto">
+            <li class="page-item">
+                {% if page_obj.has_previous %}
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                {% else %}
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                {% endif %}
+            </li>
+
+            {% for index in page_obj.paginator.page_range %}
+                {% if page_obj.number == index %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ index }}">{{ index }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ index }}">{{ index }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            <li class="page-item">
+                {% if page_obj.has_next %}
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                {% else %}
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                {% endif %}
+                
+            </li>
+        </ul>
+    </nav>
+</div>

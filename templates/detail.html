@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+	{% block title %} <title>muckup.uz</title> {% endblock title %}
+
+	{% block css %}
+
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+		<!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/fakeLoader.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+		<style type="text/css"></style>
+
+	{% endblock css %}
+
+	{% block body %}
+
+		<section class="container pl-0 pr-0 pt-5 pb-5 border-bottom">
+			<div class="row pt-5 mt-2">
+				<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+					<h4 class="font-weight-bold">{{ object.name }}</h4>
+				</div>
+				<!-- <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+					<div class="search" style="border: 1px solid #ddd; border-radius: 50px; padding-left: 20px; padding-right: 3px;">
+						<input type="text"placeholder="Izlash ....">
+						<div class="button-src">
+							<button class="btn">Izlash</button>
+						</div>
+					</div>
+				</div> -->
+			</div>
+			<div class="row p-2">
+
+				{% for image in object.product_image.all %}
+					<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 p-2">
+						<img src="{{ image.imageURL }}" class="mt-2" width="100%">
+					</div>
+				{% endfor %}
+				
+				
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-right">
+					<div id="wrap">
+						<a href="{{ object.fileURL }}" onclick="core_method_js(this)" data-slug="{{ object.slug }}" class="btn-slide2">
+							<span class="circle2 text-center"><i class="fa fa-download"></i></span>
+							<span class="title2">Yuklab olish</span>
+							<span class="title-hover2">Yuklab olish</span>
+						</a>
+					</div>
+				</div>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pl-4 pt-4 text-justify h5">
+					<h4 class="font-weight-bold">Tavsif</h4>
+					<p>{{ object.description|safe }}</p>
+				</div>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pl-4 pt-4">
+					<h5>Teglar</h5>
+					<div class="form-inline">
+						<!-- Tags -->
+						{% for tag in object.tags.all %}
+							<button class="btn btn-sm btn-success pl-2 pr-2 mr-2">{{ tag.tag }} <span>&times;</span></button>
+						{% endfor %}						
+						<!-- End Tags -->
+					</div>
+				</div>	
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-4">
+					<div class="row">
+						<h5 class="pl-3">Tavsilotlar</h5>				
+						<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+							<div class="row">
+								<div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 p-3 bg-light">Fayl xajmi <br> 
+									<span><i class="fa fa-arrows-alt"></i> {{ object.file.size|filesizeformat }}</span>
+								</div>
+								<div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 p-3 bg-light">Fayl turi <br> 
+									<span><i class="fa fa-file"></i> {{ object.get_extension }}</span>
+								</div>
+								<div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 p-3 bg-light">O'lchami <br>
+									<span><i class="fa fa-arrows-alt"></i> {{ object.resolution|default_if_none:"High Resolution" }}</span>
+								</div>              
+								<div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 p-3 bg-light">Yuklanganlar <br>
+									<span><i class="fa fa-download"></i> {{ object.downloaded }}</span>
+								</div>
+								<div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 p-3 bg-light">Ko'rilganlar <br>
+									<span><i class="fa fa-eye"></i> {{ object.views_count }}</span>
+								</div>
+								<div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 p-3 bg-light">Joylangan vaqti <br>
+									<span><i class="fa fa-calendar"></i> {{ object.date|date:"d/m/Y" }}</span>
+								</div>
+							</div>					
+						</div>
+						<div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-3"></div>
+					</div>
+				</div>	
+			</div>
+		</section>
+
+
+		<section class="container-fluid bg-light pl-3 pr-3 pt-5 pb-5 border-bottom">
+			<div class="container p-3">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<h3 class="font-weight-bold">Eng ko'p ko'rilganlar</h3>
+					</div>
+				</div>
+
+				<div class="row pt-4" id="ads">
+					{% for obj in recommended_list %}
+						<div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 p-3">
+							<div class="card rounded profile-card">
+								<div class="card-image">
+									<span class="card-notify-badge ml-3">{{ obj.category }}</span>
+									<!-- Price -->
+									{% if obj.free %}
+										<span class="card-notify-year">Free</span>
+									{% elif obj.discount %}
+										<small><del>{{ obj.price }}</del></small>
+										<span class="card-notify-year">{{ obj.discount }}</span>
+									{% elif obj.price %}
+										<span class="card-notify-year">{{ obj.price }}</span>
+									{% else %}
+										<span class="card-notify-year">Free</span>
+									{% endif %}
+									<!-- End Price -->
+									
+									{% for image in obj.product_image.all %}       
+										{% if forloop.counter == 1 %}	
+											<img class="img-flu" src="{{ image.imageURL }}" width="100%" height="210" alt="Alternate Text" />
+										{% endif %}
+									{% endfor %}
+
+								</div>
+								<div class="card-body text-center">
+									<div class="ad-title m-auto">
+										<h6>{{ obj.name|truncatechars:20 }}</h6>
+									</div>
+								</div>
+								<div class="profile-content">
+									<ul class="social-link">
+										<a href="{{ obj.fileURL }}" onclick="core_method_js(this)" data-slug="{{ obj.slug }}" class="text-white"><i class="fa fa-download fa-2x mr-2"></i></a>
+										<a href="{% url 'core:detail' obj.slug %}" class="text-white heartBtn"><i class="fa fa-eye fa-2x mr-2 "></i></a>
+										<a href="#!" class="text-white heartIcon"><i class="fa fa-heart fa-2x"></i></a>
+									</ul>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+	{% endblock body %}
+
+	{% block js %}
+
+		<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/fakeLoader.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+
+	{% endblock js %}

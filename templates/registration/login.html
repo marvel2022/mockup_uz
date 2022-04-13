@@ -1,0 +1,77 @@
+{% extends "../base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %} <title>muckup.uz</title> {% endblock title %}
+
+	{% block css %} 
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/fakeLoader.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+		<style type="text/css"></style>
+	{% endblock css %}
+
+	{% block body %}
+		<section>
+			<div class="container-fluid pt-5" style="min-height: 72vh;">
+				<div class="container">
+					<div class="card pt-5 border-0">
+						<div class="card-body border text-center" style="margin: auto;">
+
+							<!-- Messages -->
+							{% include 'includes/messages.html' %}
+
+							{% if form.non_field_errors %}
+								<div id="messages">
+									{% for message in form.non_field_errors %}
+										<div class="alert alert-dismissible alert-danger" role="alert">
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+											{{ message|escape }}
+										</div>
+									{% endfor %}
+								</div>
+							{% endif %}
+
+							<h3 class="text-dark pb-5">{% trans 'Login' %}</h3>
+							<!-- Login Form -->
+							<form  class="pt--20 pb--30 login" method="POST" action="">
+								{% csrf_token %}
+								<div class="form-group{% if form.phone_number.errors %} has-error{% endif %}">
+									<label class="control-label" for="id_phone_number">{% trans 'Phone Number' %}</label>
+									<div class="form-inline">
+										<input class="form-control input-lg" id="id_phone_number" name="phone_number" style="width: 100%" type="text" required />
+										<div class="error-block">{{ form.phone_number.errors }}</div>
+									</div>
+								</div>
+								<div class="form-group{% if form.password.errors %} has-error{% endif %}">
+									<label class="control-label" for="id_password">{% trans 'Password' %}</label>
+									<div class="form-inline">
+										<input class="form-control input-lg" id="id_password" name="password" style="width: 100%" type="password" required />
+										<div class="error-block">{{ form.password.errors }}</div>
+									</div>
+								</div>
+									<button class="btn btn-block login_btn" type="submit">Войти</button>
+							</form>
+							<!-- End Login Form -->
+							<p><a href="{% url 'users:reset-password-phonenumber' %}" class="h6 text-dark"> Забыл пароль? </a></p>
+							<br>
+							<p>Если вы еще не создали учетную запись, сначала 
+								<a href="{% url 'users:phone-number-view' %}" class="text-secondary" >зарегистрируйтесь.</a>
+							</p>     
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	{% endblock body %}
+
+	{% block js %} 
+		<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/fakeLoader.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+	{% endblock js %}

@@ -1,0 +1,411 @@
+{% extends 'base.html' %}
+{% load static %}
+
+	{% block title %} <title>muckup.uz</title> {% endblock title %}
+
+	{% block css %}
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+		<!-- <link rel="stylesheet" href="css/bootstrap.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/fakeLoader.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+		<style type="text/css"></style>
+	{% endblock css %}
+
+
+	{% block body %}
+
+		<section class="container-fluid text-dark pt-5">
+
+			{% for obj in object_list %}
+				<div class="container">
+					<div class="row pt-5" id="ads">
+						<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+							<h1 class="text-dark font-weight-bold">{{ obj.name }}</h1>
+						</div>
+						{% for object in obj.usefull_category.all %}
+							<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+								<a href="{{ object.link }}" class="text-decoration-none text-dark">
+									<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+										<div class="card-image">
+											{% if object.free %}
+												<span class="card-notify-year">Free</span>
+											{% elif object.free %}
+												<span class="card-notify-year">Paid</span>
+											{% endif %}
+
+											{% if object.image %}
+											<img class="img-flu" src="{{ object.imageURL }}" width="70%" height="50" class="m-auto" alt="Alternate Text" />
+											{% else %}
+											<img class="img-flu" src="{% static 'img/link/default.png' %}" width="70%" height="50" class="m-auto" alt="Alternate Text" />
+											{% endif %}
+										</div>
+										<h6 class="pt-3">{{ object.name|truncatechars:20 }}</h6>
+									</div>
+								</a>
+							</div>
+						{% empty %}
+							<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+								<a href="#" class="text-decoration-none text-dark">
+									<div class="card border pt-4 pb-0 text-center" style="background-color: #eee;">
+										<div class="card-image">
+											<img class="img-flu" src="{% static 'img/link/empty.jpg' %}" width="70%" height="50px" class="m-auto" alt="Alternate Text" />
+										</div>
+										<h6 class="pt-3">There is nothing ;(</h6>
+										
+							
+									</div>
+									
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+
+			<!-- <div class="container">
+				<div class="row pt-5" id="ads">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<h1 class="text-dark font-weight-bold">Muckup</h1>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://mockups-design.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/m2.png' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">mockups-design.com</h5>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://downloadmockup.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/m3.png' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">downloadmockup.com</h5>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://mockupfree.co/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/m4.png' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">mockupfree.co</h5>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.psdmockups.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/m5.png' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">psdmockups.com</h5>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.mockupworld.co/all-mockups/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/m6.png' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">mockupworld.co</h5>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://mockuptree.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/m7.png' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">mockuptree.com</h5>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.graphicpear.com/mockups/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/m8.png' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">graphicpear.com</h5>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://pngtree.com/templates/mackup-logo" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center heightH" style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static '' %}" width="80%" height="50" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h5 class="pt-3">pngtree.com</h5>
+							</div>
+						</a>
+					</div> -->
+				</div>
+			</div>
+
+			<div class="container pt-5">
+				<div class="row">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<h1 class="font-weight-bold">Icokalar</h1>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://www.flaticon.com/" class="text-decoration-none text-dark" >
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee;">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">Flaticon.uz</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://fonts.google.com/icons" class="text-decoration-none text-dark" >
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee;">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">fonts.google.com/icon</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://icons8.com/" class="text-decoration-none text-dark" >
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee; ">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">icons8.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://fontawesome.com/icons?d=gallery&p=2" class="text-decoration-none text-dark" >
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee;">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">fontawesome.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://www.iconfinder.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee; ">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">iconfinder.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://freeicons.io/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee;">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">freeicons.io</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://thenounproject.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee; ">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">thenounproject.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-2 m-auto">
+						<a href="https://materialdesignicons.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center" style="background-color: #eee; ">
+								<img src="{% static 'img/link/flaticon_negative.svg' %}" width="70%" height="50px" alt="" class="m-auto">
+								<h6 class="pt-3">materialdesignicons.com</h6>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row pt-5" id="ads">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<h1 class="text-dark font-weight-bold">Rasmlar</h1>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.pexels.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/pexels-logo.png' %}" width="70%" height="50px" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">pexels.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.uhdpaper.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/r2.png' %}" width="70%" height="50px" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">uhdpaper.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.wallpaperup.com/resolution/4k_-_ultra_hd/2" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/r3.png' %}" width="70%" height="50px" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">unsplash.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.wallpaperup.com/resolution/4k_-_ultra_hd/2" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/r4.jpg' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">wallpaperup.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://wallpapercave.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/r5.png' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">wallpapercave.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.setaswall.com/4k-wallpapers/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/r6.png' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">setaswall.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://wallpaperaccess.com/4k" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/r7.png' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">wallpaperaccess.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://wallpaperscraft.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-3 pb-3 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/r8.png' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">wallpaperscraft.com</h6>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		
+			<div class="container">
+				<div class="row pt-5 pb-5" id="ads">
+					<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+						<h1 class="text-dark font-weight-bold">Fonts</h1>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.fontmirror.com/sketsa-ramadhan" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/f2.png' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">fontmirror.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.myfonts.com/WhatTheFont/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/f1.jpg' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">myfonts.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://fonts.google.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/f4.png' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">fonts.google.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.fontsquirrel.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/f5.png' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">fontsquirrel.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://www.1001fonts.com/" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/f6.svg' %}" width="70%" height="50px"  class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">1001fonts.com</h6>
+							</div>
+						</a>
+					</div>
+					<div class="col-11 col-sm-6 col-md-4 col-lg-3 col-xl-3 p-3 m-auto">
+						<a href="https://lingojam.com/FontChanger" class="text-decoration-none text-dark">
+							<div class="card border pt-4 pb-0 text-center " style="background-color: #eee;">
+								<div class="card-image">
+									<span class="card-notify-year">Free</span>
+									<img class="img-flu" src="{% static 'img/link/f7.png' %}" width="70%" height="50px" class="m-auto" alt="Alternate Text" />
+								</div>
+								<h6 class="pt-3">lingojam.com</h6>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+	{% endblock body %}
+
+	{% block js %}
+		<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/fakeLoader.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+	{% endblock js %}

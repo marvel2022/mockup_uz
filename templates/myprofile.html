@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+	{% block css %}
+		<link rel="stylesheet" type="text/css" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/fakeLoader.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+		<style type="text/css"></style>
+	{% endblock css %}
+
+	{% block body %}
+
+		<section class="container pt-5 pb-5" style="min-height: 80vh;">
+			<div class="row pt-5 mt-3">
+			
+				<!-- Messages -->
+				{% include 'includes/messages.html' %}
+
+				<div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 p-0"> 
+					<div class="card text-center pt-4 m-0">
+						{% if user_info.imageURL %}
+							<img src="{{ user_info.imageURL }}" width="150" height="150" class="m-auto">
+						{% else %}
+							<img src="{% static 'img/user.svg' %}" width="150" height="150" class="m-auto">
+						{% endif %}
+						<div class="row pl-3 pr-3 mt-3">
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0 border p-2"><i class="fa fa-user" style="font-size: 30px;"></i></div>
+							<div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border"><h6 class="pt-3 font-weight-bold">{{ user_info.full_name|default_if_none:"" }}</h6></div>
+
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0 border p-2"><i class="fa fa-envelope" style="font-size: 25px;"></i></div>
+							<div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border"><h6 class="pt-3 font-weight-bold">{{ user_info.email|default_if_none:"" }}</h6></div>
+
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0 border p-2"><i class="fa fa-phone" style="font-size: 30px;"></i></div>
+							<div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border"><h6 class="pt-3 font-weight-bold">{{ user_info.phone_number }}</h6></div>
+
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0 border p-2"><i class="fa fa-phone" style="font-size: 30px;"></i></div>
+							<div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border"><h6 class="pt-3 font-weight-bold">{{ user_info.address|default_if_none:"" }}</h6></div>
+
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0 border p-2"><i class="fa fa-phone" style="font-size: 30px;"></i></div>
+							<div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border"><h6 class="pt-3 font-weight-bold">{{ user_info.company|default_if_none:"" }}</h6></div>
+
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0 border p-2"><i class="fa fa-phone" style="font-size: 30px;"></i></div>
+							<div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border"><h6 class="pt-3 font-weight-bold">{{ user_info.company_web_site|default_if_none:""|urlize }}</h6></div>
+
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 pl-0 pr-0 border p-2"><i class="fa fa-phone" style="font-size: 30px;"></i></div>
+							<div class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border"><h6 class="pt-3 font-weight-bold">{{ user_info.company_address|default_if_none:"" }}</h6></div>
+
+							{# <a class='btn-blue-grey' href="{% url 'users:user-info-2nd-step' user_info.pk %}">Change Info</a> #}
+							<div><a href="{% url 'core:update-profile' user_info.pk %}" class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border">Update Profile</a></div> 
+							<div><a href="{% url 'users:change-password' user_info.pk %}" class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 border">Change Password</a></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8"> 
+					<div class="row" id="ads">
+						{% for obj in object_list %}
+							<div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 p-3">
+								<div class="card rounded profile-card">
+									<div class="card-image">
+										<!-- Price -->
+										{% if obj.free %}
+											<span class="card-notify-year">Free</span>
+										{% elif obj.discount %}
+											<small><del>{{ obj.price }}</del></small>
+											<span class="card-notify-year">{{ obj.discount }}</span>
+										{% elif obj.price %}
+											<span class="card-notify-year">{{ obj.price }}</span>
+										{% else %}
+											<span class="card-notify-year">Free</span>
+										{% endif %}
+										<!-- End Price -->
+										{% for image in obj.product_image.all %}       
+											{% if forloop.counter == 1 %}	
+												<img class="img-flu" src="{{ image.imageURL }}" width="100%" height="210" alt="Alternate Text" />
+											{% endif %}
+										{% endfor %}
+									</div>
+									<div class="card-body text-center">
+										<div class="ad-title m-auto">
+											<h6>{{ obj.name|truncatechars:20 }}</h6>
+										</div>
+									</div>
+									<div class="profile-content">
+										<ul class="social-link">
+											<a href="{{ obj.fileURL }}" onclick="core_method_js(this)" data-slug="{{ obj.slug }}" class="text-white"><i class="fa fa-download fa-2x mr-2"></i></a>
+											<a href="{% url 'core:detail' obj.slug %}" class="text-white heartBtn"><i class="fa fa-eye fa-2x mr-2 "></i></a>
+											{% if request.user in obj.liked.all %}
+												<a  onclick="like_unlike(this)" data-slug="{{ obj.slug }}" class="text-white heartIcon"><i style='color: red;' class="fa fa-heart fa-2x"></i></a>
+											{% else %}
+												<a onclick="like_unlike(this)" data-slug="{{ obj.slug }}" class="text-white heartIcon"><i class="fa fa-heart fa-2x"></i></a>
+											{% endif %}
+										</ul>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				
+			</div>
+				
+		</section>
+
+			<!-- <div class="fakeLoader"></div> -->
+			<button class="btn btn-outline-danger btn-top" title="ScrollTop"><i class="fa fa-angle-up"></i></button>
+
+		<!-- <div class="fakeLoader"></div> -->
+		<button class="btn btn-outline-danger btn-top" title="ScrollTop"><i class="fa fa-angle-up"></i></button>
+
+	{% endblock body %}
+
+	{% block js %}
+
+		<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/fakeLoader.min.js' %}"></script>
+		<script src="{% static 'js/script.js' %}"></script>
+		<script>
+
+		</script>
+	{% endblock js %}
